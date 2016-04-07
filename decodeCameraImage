@@ -69,7 +69,13 @@ function decodeCameraImage(data) {
 	
 }
 
-
+var letter = ''
+    
+ for (var i = 0; i <= morseCodeTable.length) {
+    if (morseCodeTable[i] === ) {
+         letter = morseCodeTable[i - 1]
+        }
+}
 
 
 
