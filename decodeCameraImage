@@ -27,7 +27,7 @@
 // ADD YOUR ADDITIONAL FUNCTIONS AND GLOBAL VARIABLES HERE
 
 
-var morseCodeTable = ['a', "._", 'b', "_...", 'c', "_._.", 'd', "_..", 'e', ".", 'f', ".._.", 'g', "__.", 'h', "....", 'i', "..", 'j', ".___", 'k', "_._", 'l', "._..", 'm', "_.", 'n', "_.", 'o', "___", 'p', ".__.", 'q', "__._", 'r', "._.", 's', "...", 't', "_", 'u', ".._", 'v', "..._", 'w', ".__", 'x', "_.._", 'y', "_.__", 'z', "__..", '0', "_____", '1', ".____", '2', "..___", '3', "...__", '4', "...._", '5', ".....", '6', "_....", '7', "__...", '8', "___..", '9', "____.", '(', "_.__.", ')', "_.__._", '"', "_..._", '=', "_..._", "'", ".____.", '/', "_.._.", '+', "._._.", ':', "___...", '.', "._._._", ',', "__..__", '?', "..__..", '-', "_..._", '@', ".__._.", '$', "..._.._", '_', "..__._", '!', "_._.__", '<br/>', "._._", 'SK', "..._._"]
+var morseCodeTable = ['a', "._", 'b', "_...", 'c', "_._.", 'd', "_..", 'e', ".", 'f', ".._.", 'g', "__.", 'h', "....", 'i', "..", 'j', ".___", 'k', "_._", 'l', "._..", 'm', "__", 'n', "_.", 'o', "___", 'p', ".__.", 'q', "__._", 'r', "._.", 's', "...", 't', "_", 'u', ".._", 'v', "..._", 'w', ".__", 'x', "_.._", 'y', "_.__", 'z', "__..", '0', "_____", '1', ".____", '2', "..___", '3', "...__", '4', "...._", '5', ".....", '6', "_....", '7', "__...", '8', "___..", '9', "____.", '(', "_.__.", ')', "_.__._", '"', "_..._", '=', "_..._", "'", ".____.", '/', "_.._.", '+', "._._.", ':', "___...", '.', "._._._", ',', "__..__", '?', "..__..", '-', "_..._", '@', ".__._.", '$', "..._.._", '_', "..__._", '!', "_._.__", '<br/>', "._._", 'SK', "..._._"]
 
 var On = 0;
 var Off = 0;
@@ -37,10 +37,12 @@ var str = ""
 var messageFieldRef = document.getElementById("messageField");
 var realString = ""
 
+
 document.getElementById('restartButton').onclick = function () {
 	dotdashArray = [];
 	codeArray = [];
 	str = "";
+	realString = ""
 	messageFieldRef.innerHTML = ""
 }
 
@@ -78,7 +80,6 @@ function decodeCameraImage(data) {
             }
     }
 
-	var l
     if (redCount > blueCount) {
 		if (On === 0)
 		{codeArray.push(Off);
@@ -89,17 +90,33 @@ function decodeCameraImage(data) {
 				}
 			else if (Off <= 6) 
 				{
-					dotdashArray.push('*')
 					str = dotdashArray.join('')
+					dotdashArray = []
+					var m = 0;
+						for (var n = 1; n < morseCodeTable.length; n = n + 2)
+							{
+								if (morseCodeTable[n] == str){
+									realString += morseCodeTable[m]}
+								else {}
+								m = m + 2;
+							}
 				}
 		 	else 
 				{
-					dotdashArray.push(' ')
 					str = dotdashArray.join('')
+					dotdashArray = []
+					var m = 0;
+						for (var n = 1; n < morseCodeTable.length; n = n + 2)
+							{ 
+								if (morseCodeTable[n] == str){
+									realString += morseCodeTable[m] + " "}
+								else {}
+								m = m + 2;
+							}
 				}
 			
 			console.log(str);
-			messageFieldRef.innerHTML = str;
+			messageFieldRef.innerHTML = realString;
 		 
 		}
 		
@@ -121,8 +138,6 @@ function decodeCameraImage(data) {
 					dotdashArray.push('_')
 				}
 		 	str = dotdashArray.join('')
-			console.log(str);
-			messageFieldRef.innerHTML = str;
 		 
 		 
 		}
