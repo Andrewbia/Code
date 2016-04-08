@@ -85,19 +85,20 @@ function decodeCameraImage(data) {
 			if (Off <= 2)
 				{
 					dotdashArray.push('')
+					str = dotdashArray.join('')
 				}
 			else if (Off <= 6) 
 				{
 					dotdashArray.push('*')
+					str = dotdashArray.join('')
 				}
 		 	else 
 				{
 					dotdashArray.push(' ')
+					str = dotdashArray.join('')
 				}
-			str = dotdashArray.join('')
+			
 			console.log(str);
-		 	l = str.length
-			console.log(l)
 			messageFieldRef.innerHTML = str;
 		 
 		}
