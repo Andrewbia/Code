@@ -29,6 +29,8 @@
 
 var morseCodeTable = ['a', "._", 'b', "_...", 'c', "_._.", 'd', "_..", 'e', ".", 'f', ".._.", 'g', "__.", 'h', "....", 'i', "..", 'j', ".___", 'k', "_._", 'l', "._..", 'm', "__", 'n', "_.", 'o', "___", 'p', ".__.", 'q', "__._", 'r', "._.", 's', "...", 't', "_", 'u', ".._", 'v', "..._", 'w', ".__", 'x', "_.._", 'y', "_.__", 'z', "__..", '0', "_____", '1', ".____", '2', "..___", '3', "...__", '4', "...._", '5', ".....", '6', "_....", '7', "__...", '8', "___..", '9', "____.", '(', "_.__.", ')', "_.__._", '"', "_..._", '=', "_..._", "'", ".____.", '/', "_.._.", '+', "._._.", ':', "___...", '.', "._._._", ',', "__..__", '?', "..__..", '-', "_..._", '@', ".__._.", '$', "..._.._", '_', "..__._", '!', "_._.__", '\n', "._._", 'SK', "..._._"]
 
+//Sets all variables to zero to begin
+
 var On = 0;
 var Off = 0;
 var codeArray = [];
@@ -37,6 +39,7 @@ var str = ""
 var messageFieldRef = document.getElementById("messageField");
 var realString = ""
 
+// Restart Button (sets all variables to zero in order to restart function
 
 document.getElementById('restartButton').onclick = function () {
 	dotdashArray = [];
@@ -62,63 +65,66 @@ document.getElementById('restartButton').onclick = function () {
  */
 function decodeCameraImage(data) {
 
-	var blueCount = 0
-    var redCount = 0
+	var blueCount = 0 //sets initial blue pixel count to zero
+    var redCount = 0 //sets initial red pixel count to zero
 	
     
-	for (var i = 2; i < data.length; i = i + 4)
+	for (var i = 2; i < data.length; i = i + 4)	//i represents blue colour in pixel
 	{
-		var j = 0; j = j + 4;
+		var j = 0; j = j + 4; //j represents red colour in pixel
 		
-        if (data[i] > data[j])
+        if (data[i] > data[j]) 	//if blue colour is greater than red colour
             {
-        	   blueCount++;
+        	   blueCount++; //Increases Blue Pixel Count
             }
         else
             {
-                redCount++;
+                redCount++; //Increases Red Pixel Count
             }
     }
 
-    if (redCount > blueCount) {
-		if (On === 0)
-		{codeArray.push(Off);
-			if (Off <= 2)
+    if (redCount > blueCount) { //if more red than blue
+		if (On === 0) 
+		{codeArray.push(Off); 
+			if (Off <= 2) //Inter Element Space
 				{
-					dotdashArray.push('')
+					dotdashArray.push('') 
 					str = dotdashArray.join('')
 				}
-			else if (Off <= 6) 
+			else if (Off <= 6) //Inter Character Space
 				{
 					str = dotdashArray.join('')
-					dotdashArray = []
-					var m = 0;
-						for (var n = 1; n < morseCodeTable.length; n = n + 2)
+					dotdashArray = [] //Resets Morse Array to []
+					var m = 0; 
+						for (var n = 1; n < morseCodeTable.length; n = n + 2) //Counts through MorseCodeTable for morse elements
 							{
 								if (morseCodeTable[n] == str){
-									realString += morseCodeTable[m]}
+									realString += morseCodeTable[m]} //If morse code represents a letter, return that letter in 'realString'
 								else {}
-								m = m + 2;
+								m = m + 2; //counts through morseCodeTable for letter elements
 								
 								
 							}
 				}
-		 	else 
+		 	else //Inter Word Space
 				{
 					str = dotdashArray.join('')
-					dotdashArray = []
+					dotdashArray = [] //Resets Morse Array to []
 					var m = 0;
-						for (var n = 1; n < morseCodeTable.length; n = n + 2)
+						for (var n = 1; n < morseCodeTable.length; n = n + 2) //Counts through MorseCodeTable for morse elements
 							{ 
 								if (morseCodeTable[n] == str){
-									realString += morseCodeTable[m] + " "}
+									realString += morseCodeTable[m] + " "} //If morse code represents a letter, return that letter in 'realString'
 								else {}
-								m = m + 2;
+								m = m + 2; //counts through morseCodeTable for letter elements
 							}
 				}
+		 
+		 	if (str == "..._._"){
+				messageFinished()} //if 'str' = message finised code, call the function 'messageFinished'
+		 	else {}
 			
-			console.log(str);
-			messageFieldRef.innerHTML = realString;
+			messageFieldRef.innerHTML = realString; //Display 'realString' in message field
 		 
 		}
 		
@@ -126,28 +132,32 @@ function decodeCameraImage(data) {
 		{}
 		On++
 		Off = 0
-        return true;
+        return true; //Returns That Image is mostly Red
     }
     else {
-		if (Off === 0)
+		if (Off === 0) 
 		{codeArray.push(On);
-			if (On <= 2)
+			if (On <= 2) //
 				{
-					dotdashArray.push('.')
+					dotdashArray.push('.') //Adds a dot to morse code string
 				}
 			else
 				{
-					dotdashArray.push('_')
+					dotdashArray.push('_') //Adds a dash to morse code string
 				}
 		 	str = dotdashArray.join('')
+			
+			if (str == "..._._"){
+				messageFinished()} //if 'str' = message finised code, call the function 'messageFinished'
+		 	else {}
 		 
 		 
 		}
 		else
 		{}	
-		Off++
+		Off++ 
 		On = 0
-        return false;
+        return false; //Returns That Image is mostly B/ue
 	}
 	
 }
