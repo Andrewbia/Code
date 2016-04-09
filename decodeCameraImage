@@ -39,7 +39,7 @@ var str = ""
 var messageFieldRef = document.getElementById("messageField");
 var realString = ""
 
-// Restart Button (sets all variables to zero in order to restart function
+// Restart Button (sets all variables to zero in order to restart function)
 
 document.getElementById('restartButton').onclick = function () {
 	dotdashArray = [];
